@@ -11,11 +11,13 @@ import Messages
 
 class MessagesViewController: MSMessagesAppViewController {
     
+    var tappedOnMessage:Bool!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //self.dismiss()
-        
+        self.tappedOnMessage = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -29,7 +31,6 @@ class MessagesViewController: MSMessagesAppViewController {
         // Called when the extension is about to move from the inactive to active state.
         // This will happen when the extension is about to present UI.
         super.willBecomeActive(with: conversation)
-        
         self.presentViewController(for: conversation, with: self.presentationStyle)
         // Remove any existing child controllers.
         
@@ -59,31 +60,29 @@ class MessagesViewController: MSMessagesAppViewController {
     fileprivate func presentViewController(for conversation:MSConversation, with presentationStyle: MSMessagesAppPresentationStyle){
         let controller:UIViewController
         
-        for child in childViewControllers {
-            child.willMove(toParentViewController: nil)
-            child.view.removeFromSuperview()
-            child.removeFromParentViewController()
-        }
-        
         if presentationStyle == .compact {
             controller = self.instantiateShowCollectionController()
+        } else if presentationStyle == .expanded && self.tappedOnMessage == true {
+            controller = self.instantiateSearchNavigationController()
         } else {
-            //controller = self.instantiateShowCollectionController()
-            if let messageURL = conversation.selectedMessage?.url {
-                let components = URLComponents(url: messageURL, resolvingAgainstBaseURL: false)
+            
+            if let message = conversation.selectedMessage{
+                self.tappedOnMessage = false
+                let messageURL = message.url
+                let components = URLComponents(url: messageURL!, resolvingAgainstBaseURL: false)
                 var name:String = ""
                 var poster_url:String = ""
                 var description:String = ""
                 
                 for (_, item) in (components?.queryItems?.enumerated())! {
                     switch item.name {
-                        case "name":
+                    case "name":
                         name = item.value!
                         break
-                        case "poster_url":
+                    case "poster_url":
                         poster_url = item.value!
                         break
-                        case "description":
+                    case "description":
                         description = item.value!
                         break
                     default:
@@ -92,16 +91,71 @@ class MessagesViewController: MSMessagesAppViewController {
                 }
                 
                 let show = TVShow(name: name, poster_url: poster_url, description: description)
-                controller = self.instantiateShowResultsViewController() 
+                controller = self.instantiateShowResultsViewController()
                 (controller as! ShowResultsViewController).selectedTVShow = show
                 (controller as! ShowResultsViewController).delegate = self
-                conversation.selectedMessage?.url = nil
+            } else {
+                controller = self.instantiateSearchNavigationController()
+            }
+        }
+        /*if presentationStyle == .compact && self.tappedOnMessage == true {
+            
+        }*/
+        
+        
+        /*if presentationStyle == .compact {
+            controller = self.instantiateShowCollectionController()
+            
+        } else if self.tappedOnMessage == true{
+            //if self.tappedOnMessage == true{
+                if let message = conversation.selectedMessage{
+                    let messageURL = message.url
+                    let components = URLComponents(url: messageURL!, resolvingAgainstBaseURL: false)
+                    var name:String = ""
+                    var poster_url:String = ""
+                    var description:String = ""
+                    
+                    for (_, item) in (components?.queryItems?.enumerated())! {
+                        switch item.name {
+                        case "name":
+                            name = item.value!
+                            break
+                        case "poster_url":
+                            poster_url = item.value!
+                            break
+                        case "description":
+                            description = item.value!
+                            break
+                        default:
+                            break
+                        }
+                    }
+                    
+                    let show = TVShow(name: name, poster_url: poster_url, description: description)
+                    controller = self.instantiateShowResultsViewController()
+                    (controller as! ShowResultsViewController).selectedTVShow = show
+                    (controller as! ShowResultsViewController).delegate = self
+
+                //}
+            } else {
+                controller = self.instantiateSearchNavigationController()
+            }
+        }
+        
+        /*if self.tappedOnMessage == true {
+
+            //controller = self.instantiateShowCollectionController()
+                            //conversation.selectedMessage?.url = nil
                 //(controller as! ShowResultsViewController)._sendShowButton.isHidden = true
                 
-            } else {
-               controller = self.instantiateSearchNavigationController()
             }
-            
+        } else {
+        }*/*/
+        
+        for child in childViewControllers {
+            child.willMove(toParentViewController: nil)
+            child.view.removeFromSuperview()
+            child.removeFromParentViewController()
         }
        
         
@@ -134,6 +188,8 @@ class MessagesViewController: MSMessagesAppViewController {
         // Called when a message arrives that was generated by another instance of this
         // extension on a remote device.
         
+        
+        //self.presentViewController(for: conversation, with: self.presentationStyle)
         // Use this method to trigger UI updates in response to the message.
     }
     
@@ -149,21 +205,35 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called before the extension transitions to a new presentation style.
+
+        //self.dismiss(animated: false, completion: nil)
+
         
-        self.dismiss(animated: true, completion: nil)
         // Use this method to prepare for the change in presentation style.
-        //guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
-        //self.presentViewController(for: conversation, with: self.presentationStyle)
-        
+        guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
+        if self.presentationStyle == .compact {
+            print("compact")
+        } else {
+            print("expanded")
+        }
+        self.presentViewController(for: conversation, with: presentationStyle)
+
+        //self.dismiss(animated: true, completion: nil)
+
 
     }
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called after the extension transitions to a new presentation style.
         
-        guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
-        self.presentViewController(for: conversation, with: self.presentationStyle)
+        //guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
+        //self.presentViewController(for: conversation, with: self.presentationStyle)
         // Use this method to finalize any behaviors associated with the change in presentation style.
+        //guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
+        //self.presentViewController(for: conversation, with: presentationStyle)
+        if self.presentationStyle == presentationStyle {
+            //print("already transitioned")
+        }
     }
 
 }
@@ -177,6 +247,7 @@ extension MessagesViewController : ResultsViewControllerDelegate {
 extension MessagesViewController: ShowControllerDelegate {
     
     func toCompactPresentationStyle() {
+        tappedOnMessage = self.backFromController
         self.requestPresentationStyle(MSMessagesAppPresentationStyle.compact)
     }
     
@@ -209,7 +280,7 @@ extension MessagesViewController: ShowControllerDelegate {
         
         message.layout = layout
         message.url = q.url
-        
+        message.shouldExpire = true
         
         
         let conversation = self.activeConversation

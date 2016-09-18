@@ -21,10 +21,16 @@ class SearchingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         model = SearchingViewModel(delegate: self)
-        self.navigationController?.isNavigationBarHidden = true
         self._tableView.keyboardDismissMode = .onDrag
+        self._tableView.contentInset = UIEdgeInsetsMake(-80, 0, 0, 0)
         //self._dimView.layer.opacity = 0.6
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,6 +82,11 @@ extension SearchingViewController: UISearchBarDelegate {
 }
 
 extension SearchingViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultsCell", for: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let count = self.model.data?.count else { return 0 }
         return count

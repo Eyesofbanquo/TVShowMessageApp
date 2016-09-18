@@ -46,6 +46,9 @@ class ShowResultsViewController: UIViewController {
         
         //self._showSummary.text = self.selectedTVShow.description!
         self.showSummaryHTML.loadHTMLString(self.selectedTVShow.description!, baseURL: nil)
+        self.showSummaryHTML.backgroundColor = UIColor.clear
+        let string = showSummaryHTML.stringByEvaluatingJavaScript(from: "document.documentElement.outerHTML")
+        print(string)
         // Do any additional setup after loading the view.
     }
 

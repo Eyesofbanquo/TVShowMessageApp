@@ -227,21 +227,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="WlZ-4R-Ge8" firstAttribute="trailing" secondItem="WHR-XT-ULp" secondAttribute="trailingMargin" constant="20" id="4mO-H7-1gA"/>
+                            <constraint firstItem="WlZ-4R-Ge8" firstAttribute="trailing" secondItem="WHR-XT-ULp" secondAttribute="trailingMargin" id="4mO-H7-1gA"/>
                             <constraint firstItem="2XN-dT-YWj" firstAttribute="centerX" secondItem="WHR-XT-ULp" secondAttribute="centerX" id="6cm-bL-LNN"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Fqa-Dx-UD0" secondAttribute="trailing" constant="95" id="9yM-gk-A34"/>
-                            <constraint firstItem="WlZ-4R-Ge8" firstAttribute="top" secondItem="GOQ-hx-ILM" secondAttribute="bottom" constant="9" id="AZl-yI-7DZ"/>
+                            <constraint firstItem="WlZ-4R-Ge8" firstAttribute="top" secondItem="GOQ-hx-ILM" secondAttribute="bottom" constant="8" id="AZl-yI-7DZ"/>
+                            <constraint firstItem="GOQ-hx-ILM" firstAttribute="leading" secondItem="WHR-XT-ULp" secondAttribute="leadingMargin" id="BRr-WO-5kG"/>
                             <constraint firstItem="Fqa-Dx-UD0" firstAttribute="leading" secondItem="WHR-XT-ULp" secondAttribute="leadingMargin" constant="96" id="Gc4-9p-eRw"/>
                             <constraint firstItem="DU4-MN-Y2P" firstAttribute="top" secondItem="WlZ-4R-Ge8" secondAttribute="bottom" id="MEu-Xb-JBx"/>
                             <constraint firstItem="wJW-wo-waI" firstAttribute="top" secondItem="ORe-IM-8Zh" secondAttribute="bottom" id="TsX-Y7-XGL"/>
-                            <constraint firstItem="WlZ-4R-Ge8" firstAttribute="leading" secondItem="WHR-XT-ULp" secondAttribute="leadingMargin" constant="-20" id="YSx-ln-F0Q"/>
+                            <constraint firstItem="WlZ-4R-Ge8" firstAttribute="leading" secondItem="WHR-XT-ULp" secondAttribute="leadingMargin" id="YSx-ln-F0Q"/>
                             <constraint firstItem="Fqa-Dx-UD0" firstAttribute="top" secondItem="ORe-IM-8Zh" secondAttribute="bottom" constant="8" id="avo-rr-1Ut"/>
-                            <constraint firstItem="GOQ-hx-ILM" firstAttribute="trailing" secondItem="WHR-XT-ULp" secondAttribute="trailingMargin" id="fKa-2M-u2a"/>
                             <constraint firstItem="2XN-dT-YWj" firstAttribute="top" secondItem="Fqa-Dx-UD0" secondAttribute="bottom" constant="8" id="hLg-fy-5Ie"/>
-                            <constraint firstItem="2XN-dT-YWj" firstAttribute="top" secondItem="wJW-wo-waI" secondAttribute="bottom" constant="8" id="isd-CH-hdf"/>
+                            <constraint firstItem="2XN-dT-YWj" firstAttribute="top" secondItem="wJW-wo-waI" secondAttribute="bottom" constant="-390" id="isd-CH-hdf"/>
                             <constraint firstItem="2XN-dT-YWj" firstAttribute="centerY" secondItem="WHR-XT-ULp" secondAttribute="centerY" id="mqa-wR-UMC"/>
                             <constraint firstItem="WlZ-4R-Ge8" firstAttribute="top" secondItem="2XN-dT-YWj" secondAttribute="bottom" constant="8" id="nd3-N0-vu6"/>
-                            <constraint firstItem="GOQ-hx-ILM" firstAttribute="top" secondItem="wJW-wo-waI" secondAttribute="bottom" constant="7" id="rtk-9K-UyH"/>
+                            <constraint firstItem="GOQ-hx-ILM" firstAttribute="top" secondItem="wJW-wo-waI" secondAttribute="bottom" constant="-390" id="rtk-9K-UyH"/>
                             <constraint firstAttribute="trailing" secondItem="wJW-wo-waI" secondAttribute="trailing" id="ugP-Q6-r94"/>
                             <constraint firstItem="wJW-wo-waI" firstAttribute="leading" secondItem="WHR-XT-ULp" secondAttribute="leading" id="w9L-OS-CYO"/>
                         </constraints>
@@ -261,7 +261,7 @@
         <!--Navigation Controller-->
         <scene sceneID="0SM-oO-pxO">
             <objects>
-                <navigationController storyboardIdentifier="SearchNavigation" automaticallyAdjustsScrollViewInsets="NO" id="16H-C8-LsP" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="SearchNavigation" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="16H-C8-LsP" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="w6G-z0-3Yn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

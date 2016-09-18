@@ -17,6 +17,14 @@ protocol ShowControllerDelegate: class {
     func dismiss()
 }
 
+extension ShowControllerDelegate {
+    var backFromController:Bool {
+        get {
+            return true
+        }
+    }
+}
+
 class ShowCollectionViewController: UICollectionViewController {
     
     static let storyboardID = "ShowController"
