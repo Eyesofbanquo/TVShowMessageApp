@@ -10,6 +10,7 @@ import UIKit
 
 protocol ResultsViewControllerDelegate : class {
     func sendTVInformation()
+    
 }
 
 class ShowResultsViewController: UIViewController {
@@ -24,6 +25,7 @@ class ShowResultsViewController: UIViewController {
     @IBOutlet weak var _sendShowButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        //self.navigationController?.isToolbarHidden = false
         DispatchQueue.global().async {
             do {
                 let data = try Data(contentsOf: URL(string: self.selectedTVShow.poster_url)!)
@@ -56,6 +58,17 @@ class ShowResultsViewController: UIViewController {
         delegate.sendTVInformation(show: self.selectedTVShow, posterImage: self._posterImageView.image)
     }
 
+    @IBAction func buttonUnwind(_ sender: AnyObject) {
+        if self.navigationController != nil {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            //self.delegate.dismiss()
+            self.delegate.toCompactPresentationStyle()
+        }
+       //
+        
+        
+    }
     /*
     // MARK: - Navigation
 

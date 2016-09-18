@@ -14,6 +14,8 @@ class MessagesViewController: MSMessagesAppViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        //self.dismiss()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -27,10 +29,6 @@ class MessagesViewController: MSMessagesAppViewController {
         // Called when the extension is about to move from the inactive to active state.
         // This will happen when the extension is about to present UI.
         super.willBecomeActive(with: conversation)
-        
-        if let messageURL = conversation.selectedMessage?.url {
-            
-        }
         
         self.presentViewController(for: conversation, with: self.presentationStyle)
         // Remove any existing child controllers.
@@ -77,7 +75,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 var poster_url:String = ""
                 var description:String = ""
                 
-                for (index, item) in (components?.queryItems?.enumerated())! {
+                for (_, item) in (components?.queryItems?.enumerated())! {
                     switch item.name {
                         case "name":
                         name = item.value!
@@ -96,7 +94,9 @@ class MessagesViewController: MSMessagesAppViewController {
                 let show = TVShow(name: name, poster_url: poster_url, description: description)
                 controller = self.instantiateShowResultsViewController() 
                 (controller as! ShowResultsViewController).selectedTVShow = show
-                (controller as! ShowResultsViewController)._sendShowButton.isHidden = true
+                (controller as! ShowResultsViewController).delegate = self
+                conversation.selectedMessage?.url = nil
+                //(controller as! ShowResultsViewController)._sendShowButton.isHidden = true
                 
             } else {
                controller = self.instantiateSearchNavigationController()
@@ -152,16 +152,17 @@ class MessagesViewController: MSMessagesAppViewController {
         
         self.dismiss(animated: true, completion: nil)
         // Use this method to prepare for the change in presentation style.
-        
+        //guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
         //self.presentViewController(for: conversation, with: self.presentationStyle)
+        
 
     }
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called after the extension transitions to a new presentation style.
+        
         guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
         self.presentViewController(for: conversation, with: self.presentationStyle)
-    
         // Use this method to finalize any behaviors associated with the change in presentation style.
     }
 
@@ -174,6 +175,15 @@ extension MessagesViewController : ResultsViewControllerDelegate {
 }
 
 extension MessagesViewController: ShowControllerDelegate {
+    
+    func toCompactPresentationStyle() {
+        self.requestPresentationStyle(MSMessagesAppPresentationStyle.compact)
+    }
+    
+    func toExtendedPresentationStyle() {
+        self.requestPresentationStyle(MSMessagesAppPresentationStyle.expanded)
+    }
+
     func sendTVInformation(show:TVShow, posterImage:UIImage?) {
         
         var q = URLComponents()

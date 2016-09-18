@@ -12,6 +12,9 @@ private let reuseIdentifier = "PosterCell"
 
 protocol ShowControllerDelegate: class {
     func sendTVInformation(show:TVShow, posterImage:UIImage?)
+    func toCompactPresentationStyle()
+    func toExtendedPresentationStyle()
+    func dismiss()
 }
 
 class ShowCollectionViewController: UICollectionViewController {
@@ -75,6 +78,7 @@ class ShowCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let show = self.model.data![indexPath.row]
         let image = self.cache.object(forKey: "\(self.model.data![indexPath.row].name)" as AnyObject) as? UIImage
+        //let image = cell._posterImageView.image
         self.delegate?.sendTVInformation(show: show, posterImage: image)
     }
 
@@ -88,19 +92,19 @@ class ShowCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PosterCell", for: indexPath) as! PosterCollectionViewCell
-        cell._posterTitle.text = self.model.data![indexPath.row].name
+        //cell._posterTitle.text = self.model.data![indexPath.row].name
         
         //See if there are any images loaded into the cache. If not, create the images then load them into the cache
         if self.cache.object(forKey: indexPath.row as AnyObject) != nil {
             cell._posterImageView.image = self.cache.object(forKey: "\(self.model.data![indexPath.row].name)" as AnyObject) as? UIImage
         } else {
             DispatchQueue.global().async{
-                [weak self] in
+                //[weak self] in
                 do {
-                    let data = try Data(contentsOf: URL(string: (self?.model.data![indexPath.row].poster_url)!)!)
+                    let data = try Data(contentsOf: URL(string: (self.model.data![indexPath.row].poster_url))!)
                     let image = UIImage(data: data)
                     let index = indexPath.row
-                    self?.cache.setObject(image!, forKey: "\(self?.model.data![index].name)" as AnyObject)
+                    self.cache.setObject(image!, forKey: "\(self.model.data![index].name)" as AnyObject)
                     DispatchQueue.main.sync {
                         guard let i = image else { return }
                         cell._posterImageView.image = i

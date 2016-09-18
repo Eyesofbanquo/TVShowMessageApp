@@ -52,7 +52,6 @@ struct ShowAPI {
                         description = element["summary"] as! String
                     }
                     let newShow = TVShow(name: name, poster_url: poster_url!, description: description)
-                    //self.loadImage(url: newShow.poster_url, show: newShow)
                     self.delegate?.addShow(show: newShow)
                 }
             } catch {
